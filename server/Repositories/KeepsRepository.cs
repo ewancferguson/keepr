@@ -1,6 +1,7 @@
 
 
 
+
 namespace keepr.Repositories;
 
 
@@ -70,5 +71,32 @@ public class KeepsRepository
   }, new { keepId }).SingleOrDefault();
 
     return keep;
+  }
+
+  internal void UpdateKeep(Keep keep)
+  {
+    string sql = @"
+      UPDATE keeps
+      SET
+      name = @Name,
+      description = @Description
+      WHERE id = @Id LIMIT 1;";
+
+
+    int rowsAffected = _db.Execute(sql, keep);
+
+    if (rowsAffected == 0) throw new Exception("UPDATE WAS UNSUCCESSFUL");
+    if (rowsAffected > 1) throw new Exception("UPDATE WAS TOO SUCCESSFUL");
+
+  }
+
+  internal void DeleteKeep(int keepId)
+  {
+    string sql = "DELETE FROM keeps WHERE id = @id LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, new { id = keepId });
+
+    if (rowsAffected == 0) throw new Exception("Nothing was Deleted");
+    if (rowsAffected > 1) throw new Exception("Too much was Deleted");
   }
 }

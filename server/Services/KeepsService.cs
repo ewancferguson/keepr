@@ -33,4 +33,22 @@ public class KeepsService
 
     return keep;
   }
+
+  internal Keep UpdateKeep(int keepId, string userId, Keep keepUpdateData)
+  {
+    Keep keep = GetKeepById(keepId);
+
+    if (keep.CreatorId != userId) throw new Exception("INVALID NOT YOUR KEEP PAL");
+
+    _repository.UpdateKeep(keep);
+    return keep;
+  }
+
+  internal string DeleteKeep(int keepId, string userId)
+  {
+    Keep keep = GetKeepById(keepId);
+    if (keep.CreatorId != userId) throw new Exception("NOT YOUR KEEP BUCKO");
+    _repository.DeleteKeep(keepId);
+    return "Keep Deleted";
+  }
 }
