@@ -50,4 +50,16 @@ public class VaultsService
     return "Delete the vault";
 
   }
+
+  internal List<VaultedKeep> GetVaultedKeeps(int vaultId, string userId)
+  {
+    Vault vault = GetVaultById(vaultId);
+    if (vault.IsPrivate == true && vault.CreatorId != userId) throw new Exception("This vault doesnt exist pal");
+
+
+    List<VaultedKeep> vaultedKeep = _repository.GetVaultedKeeps(vaultId);
+
+    return vaultedKeep;
+
+  }
 }

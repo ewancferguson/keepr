@@ -81,4 +81,31 @@ public class VaultsRepository
     if (rowsAffected == 0) throw new Exception("Nothing was Deleted");
     if (rowsAffected > 1) throw new Exception("Too much was Deleted");
   }
+
+  internal List<VaultedKeep> GetVaultedKeeps(int vaultId)
+  {
+    string sql = @"
+    SELECT 
+    vault_keeps.*,
+    keeps.*,
+    vaults.*,
+    accounts.*
+    FROM vault_keeps
+    JOIN keeps ON vault_keeps.keep_id = keeps.id
+    JOIN vaults ON vault_keeps.vault_id = vaults.id
+    JOIN accounts ON keeps.creator_id = accounts.id 
+    WHERE vault_keeps.vault_id = @vaultId";
+
+
+    List<VaultedKeep> vaultedKeeps = _db.Query(sql, (VaultKeep vaultKeep, VaultedKeep keep, Vault vault, Profile account) =>
+    {
+      keep.VaultKeepId = vaultKeep.Id;
+      keep.Creator = account;
+      return keep;
+    }, new { vaultId }).ToList();
+
+    return vaultedKeeps;
+
+
+  }
 }

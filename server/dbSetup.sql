@@ -34,3 +34,35 @@ CREATE TABLE vaults(
 )
 
 DROP TABLE vaults
+
+
+
+
+
+CREATE TABLE vault_keeps (
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  keep_id int NOT NULL,
+  vault_id int NOT NULL,
+  creator_id VARCHAR(255) NOT NULL
+)
+
+
+
+
+
+
+DROP TABLE vault_keeps
+
+
+
+    SELECT 
+    vault_keeps.*,
+    keeps.*,
+    vaults.*
+    FROM vault_keeps
+    JOIN keeps ON vault_keeps.keep_id = keeps.id
+    JOIN vaults ON vault_keeps.vault_id = vaults.id
+    JOIN accounts ON keeps.creator_id = accounts.id
+    WHERE vault_keeps.vault_id = 31

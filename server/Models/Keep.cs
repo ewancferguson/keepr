@@ -12,5 +12,7 @@ namespace keepr.Models
 
     public string CreatorId { get; set; }
     public Profile Creator { get; set; }
+
+    public int Kept { get; set; }
   }
 }
