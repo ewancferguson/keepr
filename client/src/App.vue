@@ -9,7 +9,7 @@ import { AppState } from './AppState.js';
     <Navbar />
   </header>
   <main>
-    hola
+    
     <router-view />
   </main>
   <footer class="bg-dark text-light">
