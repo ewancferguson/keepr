@@ -40,6 +40,10 @@ public class KeepsService
 
     if (keep.CreatorId != userId) throw new Exception("INVALID NOT YOUR KEEP PAL");
 
+
+    keep.Name = keepUpdateData.Name ?? keep.Name;
+    keep.description = keepUpdateData.description ?? keep.description;
+
     _repository.UpdateKeep(keep);
     return keep;
   }
