@@ -1,3 +1,4 @@
+
 namespace keepr.Repositories;
 
 public class AccountsRepository
@@ -42,6 +43,22 @@ public class AccountsRepository
             WHERE id = @Id;";
     _db.Execute(sql, update);
     return update;
+  }
+
+  internal void UpdateAccount(Account userInfo)
+  {
+    string sql = @"
+    UPDATE accounts
+    SET
+    name = @Name,
+    picture = @Picture,
+    cover_img = @CoverImg
+    WHERE id = @Id LIMIT 1";
+
+    int rowsAffected = _db.Execute(sql, userInfo);
+
+    if (rowsAffected == 0) throw new Exception("UPDATE WAS UNSUCCESSFUL");
+    if (rowsAffected > 1) throw new Exception("UPDATE WAS TOO SUCCESSFUL");
   }
 }
 

@@ -67,3 +67,14 @@ DROP TABLE vault_keeps
     JOIN vaults ON vault_keeps.vault_id = vaults.id
     JOIN accounts ON keeps.creator_id = accounts.id
     WHERE vault_keeps.vault_id = 31
+
+
+    
+
+
+SELECT
+    keeps.*,
+    accounts.*
+    FROM keeps
+    JOIN accounts ON keeps.creator_id = accounts.id
+    WHERE creator_id = '679017bf9406e615cee24f9c';

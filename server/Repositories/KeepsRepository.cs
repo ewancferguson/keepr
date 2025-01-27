@@ -99,4 +99,26 @@ public class KeepsRepository
     if (rowsAffected == 0) throw new Exception("Nothing was Deleted");
     if (rowsAffected > 1) throw new Exception("Too much was Deleted");
   }
+
+  internal List<Keep> GetUsersKeeps(string userId)
+  {
+    string sql = @"
+    SELECT
+    keeps.*,
+    accounts.*
+    FROM keeps
+    JOIN accounts ON keeps.creator_id = accounts.id
+    WHERE creator_id = @userId;";
+
+
+    List<Keep> keeps = _db.Query(sql, (Keep keep, Profile account) =>
+    {
+      keep.Creator = account;
+      return keep;
+    }, new { userId }).ToList();
+
+    return keeps;
+
+
+  }
 }

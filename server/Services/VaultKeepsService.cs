@@ -6,16 +6,21 @@ namespace keepr.Services;
 public class VaultKeepsService
 {
 
-  public VaultKeepsService(VaultKeepsRepository repository)
+  public VaultKeepsService(VaultKeepsRepository repository, VaultsService vaultsService)
   {
     _repository = repository;
+    _vaultsService = vaultsService;
+
   }
 
   private readonly VaultKeepsRepository _repository;
+  private readonly VaultsService _vaultsService;
 
-  internal VaultKeep CreateVaultKeep(VaultKeep vaultKeepData)
+  internal VaultKeep CreateVaultKeep(VaultKeep vaultKeepData, string userId)
   {
     VaultKeep vaultKeep = _repository.CreateVaultKeep(vaultKeepData);
+    Vault vault = _vaultsService.GetVaultById(vaultKeep.VaultId, userId);
+    if (vault.CreatorId != userId) throw new Exception("You cant add things to someone elses vault");
     return vaultKeep;
   }
 

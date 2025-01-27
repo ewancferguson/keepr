@@ -55,4 +55,13 @@ public class KeepsService
     _repository.DeleteKeep(keepId);
     return "Keep Deleted";
   }
+
+  internal List<Keep> GetUsersKeeps(string userId)
+  {
+
+
+    List<Keep> keeps = _repository.GetUsersKeeps(userId);
+
+    return keeps;
+  }
 }
