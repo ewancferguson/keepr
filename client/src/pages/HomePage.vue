@@ -1,37 +1,100 @@
 <script setup>
+import { AppState } from '@/AppState';
+import KeepCards from '@/components/KeepCards.vue';
+import { keepsService } from '@/services/KeepsService';
+import Pop from '@/utils/Pop';
+import { computed, onMounted } from 'vue';
 
+onMounted(() => {
+  getAllKeeps();
+});
+
+const keeps = computed(() => AppState.keeps);
+
+async function getAllKeeps() {
+  try {
+    await keepsService.getAllKeeps();
+  } catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 card align-items-center shadow rounded elevation-3">
-      <img src="@/assets/img/cw-circle-logo.png" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container mt-4">
+    <div class="masonry-container">
+      <div v-for="keep in keeps" :key="keep.id" class="mb-3 keep-item">
+        <div class="keep-wrapper">
+          <img :src="keep.img" :alt="keep.img" class="picture-img rounded">
+          <div class="keep-overlay">
+            <img :src="keep.creator.picture" alt="Profile Picture" class="pfp">
+            <span class="keep-name">{{ keep.name }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+<style lang="scss" scoped>
+.masonry-container {
+  columns: 250px;
+  gap: 16px;
 
-  .home-card {
-    width: clamp(500px, 50vw, 100%);
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
+  >* {
+    break-inside: avoid;
+    display: inline-block;
+    cursor: pointer;
   }
+}
+
+.keep-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.picture-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.keep-wrapper {
+  position: relative;
+  border-radius: 12px;
+}
+
+.keep-overlay {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pfp {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.keep-name {
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  text-transform: uppercase;
 }
 </style>

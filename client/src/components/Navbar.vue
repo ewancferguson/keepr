@@ -18,54 +18,53 @@ function toggleTheme() {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="/img/cw-logo.png" height="45" />
-      </div>
-    </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <div>
-        <button class="btn text-light" @click="toggleTheme"
-          :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
-          <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
+  <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container-fluid">
+      <router-link class="navbar-brand nav-link" :to="{ name: 'Home' }">Home</router-link>
+
+      <div class="dropdown">
+        <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Create
         </button>
+        <ul class="dropdown-menu">
+          <li class="ml-2 selectable">Vault</li>
+          <li class="selectable">Keep</li>
+        </ul>
       </div>
-      <Login />
+
+      <div class="mx-auto">
+        <span class="brand-logo">the keepr co.</span>
+      </div>
+
+      <div class="ms-auto d-flex align-items-center">
+        <Login />
+      </div>
     </div>
   </nav>
 </template>
 
-<style scoped>
-a:hover {
-  text-decoration: none;
+
+<style>
+.navbar-custom {
+  background-color: #f8f0e6;
+  padding: 10px 20px;
+}
+
+.brand-logo {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  border: 1px solid #000;
+  padding: 5px 10px;
 }
 
 .nav-link {
-  text-transform: uppercase;
+  color: #8c5b5b !important;
 }
 
-.navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-@media screen and (min-width: 576px) {
-  nav {
-    height: 64px;
-  }
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 </style>
