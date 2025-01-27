@@ -2,6 +2,8 @@
 import { onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
+import CreateKeepForm from './CreateKeepForm.vue';
+import CreateVaultForm from './CreateVaultForm.vue';
 
 const theme = ref(loadState('theme') || 'light')
 
@@ -27,11 +29,12 @@ function toggleTheme() {
           Create
         </button>
         <ul class="dropdown-menu">
-          <li class="ml-2 selectable">Vault</li>
-          <li class="selectable">Keep</li>
+          <li data-bs-toggle="modal" data-bs-target="#vaultModal" class="ml-2 selectable">Vault</li>
+          <li data-bs-toggle="modal" data-bs-target="#keepForm" class="selectable">Keep</li>
         </ul>
       </div>
-
+      <CreateVaultForm />
+      <CreateKeepForm />
       <div class="mx-auto">
         <span class="brand-logo">the keepr co.</span>
       </div>

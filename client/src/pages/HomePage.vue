@@ -1,8 +1,10 @@
 <script setup>
 import { AppState } from '@/AppState';
 import KeepCards from '@/components/KeepCards.vue';
+import KeepModal from '@/components/KeepModal.vue';
 import { keepsService } from '@/services/KeepsService';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { computed, onMounted } from 'vue';
 
 onMounted(() => {
@@ -18,27 +20,38 @@ async function getAllKeeps() {
     Pop.error(error);
   }
 }
+
+async function getKeepById(keepId) {
+  try {
+    await keepsService.getKeepById(keepId)
+    Modal.getOrCreateInstance('#keepModal').show()
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 <template>
-  <div class="container mt-4">
+  <div v-if="keeps" class="container mt-4">
     <div class="masonry-container">
-      <div v-for="keep in keeps" :key="keep.id" class="mb-3 keep-item">
+      <div @click="getKeepById(keep.id)" v-for="keep in keeps" :key="keep.id" class="mb-3 keep-item">
         <div class="keep-wrapper">
           <img :src="keep.img" :alt="keep.img" class="picture-img rounded">
           <div class="keep-overlay">
-            <img :src="keep.creator.picture" alt="Profile Picture" class="pfp">
+            <img :src="keep.creator.picture" :title="keep.creator.name" alt="Profile Picture" class="pfp">
             <span class="keep-name">{{ keep.name }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <KeepModal />
 </template>
 
 <style lang="scss" scoped>
 .masonry-container {
-  columns: 250px;
+  columns: 200px;
   gap: 16px;
 
   >* {
