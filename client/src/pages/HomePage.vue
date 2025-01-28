@@ -6,6 +6,7 @@ import { keepsService } from '@/services/KeepsService';
 import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { computed, onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
 
 onMounted(() => {
   getAllKeeps();
@@ -39,7 +40,9 @@ async function getKeepById(keepId) {
         <div class="keep-wrapper">
           <img :src="keep.img" :alt="keep.img" class="picture-img rounded">
           <div class="keep-overlay">
-            <img :src="keep.creator.picture" :title="keep.creator.name" alt="Profile Picture" class="pfp">
+            <RouterLink :to="{ name: 'Profile', params: { profileId: keep.creatorId } }">
+              <img :src="keep.creator.picture" :title="keep.creator.name" alt="Profile Picture" class="pfp">
+            </RouterLink>
             <span class="keep-name">{{ keep.name }}</span>
           </div>
         </div>

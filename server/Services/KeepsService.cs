@@ -64,4 +64,12 @@ public class KeepsService
 
     return keeps;
   }
+
+  internal List<Keep> GetMyKeeps(string userId)
+  {
+    List<Keep> keeps = _repository.GetMyKeeps(userId);
+    return keeps;
+  }
+
+
 }

@@ -5,6 +5,7 @@ import { accountService } from './AccountService.js'
 import { api } from './AxiosService.js'
 import { socketService } from './SocketService.js'
 import { vaultsService } from './VaultsService.js'
+import { keepsService } from './KeepsService.js'
 
 
 export const AuthService = initialize({
@@ -22,6 +23,7 @@ AuthService.on(AUTH_EVENTS.AUTHENTICATED, async function () {
   AppState.identity = AuthService.identity
   await accountService.getAccount()
   vaultsService.getMyVaults()
+  keepsService.getMyKeeps()
   socketService.authenticate(AuthService.bearer)
   // NOTE if there is something you want to do once the user is authenticated, place that here
 })

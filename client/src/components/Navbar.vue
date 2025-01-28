@@ -25,14 +25,23 @@ function toggleTheme() {
       <router-link class="navbar-brand nav-link" :to="{ name: 'Home' }">Home</router-link>
 
       <div class="dropdown">
-        <button class="btn btn-link nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          Create
+        <button class="btn btn-outline-primary dropdown-toggle px-3 py-2" type="button" data-bs-toggle="dropdown">
+          <i class="bi bi-plus-circle me-2"></i>Create
         </button>
-        <ul class="dropdown-menu">
-          <li data-bs-toggle="modal" data-bs-target="#vaultModal" class="ml-2 selectable">Vault</li>
-          <li data-bs-toggle="modal" data-bs-target="#keepForm" class="selectable">Keep</li>
+        <ul class="dropdown-menu shadow-sm rounded-3">
+          <li>
+            <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#vaultModal">
+              <i class="bi bi-folder-fill me-2 text-primary"></i>Vault
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#keepForm">
+              <i class="bi bi-bookmark-fill me-2 text-success"></i>Keep
+            </a>
+          </li>
         </ul>
       </div>
+
       <CreateVaultForm />
       <CreateKeepForm />
       <div class="mx-auto">
@@ -45,7 +54,6 @@ function toggleTheme() {
     </div>
   </nav>
 </template>
-
 
 <style>
 .navbar-custom {
@@ -64,10 +72,25 @@ function toggleTheme() {
   color: #8c5b5b !important;
 }
 
-.profile-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+.dropdown-menu {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.5rem 0;
+  min-width: 160px;
+}
+
+.dropdown-item {
+  font-size: 0.9rem;
+  color: #6c757d;
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+  color: #495057;
+}
+
+.dropdown-item i {
+  font-size: 1rem;
 }
 </style>

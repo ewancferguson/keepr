@@ -21,7 +21,13 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
-  }
+  },
+  {
+    // NOTE : allows users to supply a value in the URL that we can target in our own code
+    path: '/profile/:profileId',
+    name: 'Profile',
+    component: loadPage('ProfilePage')
+  },
 ]
 
 export const router = createRouter({
