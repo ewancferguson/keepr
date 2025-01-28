@@ -1,14 +1,36 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { AppState } from '../AppState.js';
 import { keepsService } from '@/services/KeepsService.js';
 import Pop from '@/utils/Pop.js';
 import { Modal } from 'bootstrap';
 import KeepModal from '@/components/KeepModal.vue';
+import { useRoute } from 'vue-router';
+import { profileService } from '@/services/ProfileService.js';
 
 const account = computed(() => AppState.account)
-const vaults = computed(() => AppState.myVaults)
-const keeps = computed(() => AppState.myKeeps)
+const vaults = computed(() => AppState.userVaults)
+const keeps = computed(() => AppState.userKeeps)
+const route = useRoute()
+const profile = computed(() => AppState.activeProfile)
+
+
+
+watch(route, () => {
+  getProfileById()
+  getUsersKeeps()
+  getUsersVaults()
+}, { immediate: true })
+
+async function getProfileById() {
+  try {
+    const profileId = route.params.profileId
+    await profileService.getProfileById(profileId)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 
 
 
@@ -23,33 +45,45 @@ async function getKeepById(keepId) {
   }
 }
 
+async function getUsersKeeps() {
+  try {
+    const profileId = route.params.profileId
+    await profileService.getUsersKeeps(profileId)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
+
+async function getUsersVaults() {
+  try {
+    const profileId = route.params.profileId
+    await profileService.getUsersVaults(profileId)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 
 
 </script>
 
 <template>
-  <div v-if="account" class="container py-4">
-    <!-- Cover Image -->
+  <div v-if="profile" class="container py-4">
     <section class="row">
-      <img class="cover-img img-fluid p-2" :src="account.coverImg" alt="">
+      <img class="cover-img img-fluid p-2" :src="profile.coverImg" alt="">
     </section>
-
-    <!-- Profile Picture (Centered) -->
     <section class="row mx-3 py-4">
       <div class="d-flex justify-content-center">
-        <img class="creator-img rounded-circle border border-white shadow" :src="account.picture" alt="">
+        <img class="creator-img rounded-circle border border-white shadow" :src="profile.picture" alt="">
       </div>
     </section>
 
-
-
-    <!-- User Info -->
     <div class="text-center mt-5">
-      <h2 class="fw-bold">{{ account.name }}</h2>
+      <h2 class="fw-bold">{{ profile.name }}</h2>
       <p class="text-muted">{{ vaults.length }} Vaults | {{ keeps.length }} Keeps</p>
     </div>
 
-    <!-- Vaults Section -->
     <div v-if="vaults" class="mt-4">
       <h3 class="fw-bold">Vaults</h3>
       <div class="row g-3">
@@ -58,6 +92,9 @@ async function getKeepById(keepId) {
             <img :src="vault.img" class="w-100 rounded" />
             <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-1">
               <span class="fw-bold">{{ vault.name }}</span>
+            </div>
+            <div v-if="vault.isPrivate == true" class="lock-icon position-absolute bottom-0 end-0 m-2">
+              <i class="mdi mdi-lock text-white bg-dark bg-opacity-75 p-1 rounded-circle"></i>
             </div>
           </div>
         </div>

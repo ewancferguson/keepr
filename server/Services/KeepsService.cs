@@ -71,5 +71,16 @@ public class KeepsService
     return keeps;
   }
 
+  internal Keep IncrementVisits(int keepId, string userId)
+  {
+    Keep keep = GetKeepById(keepId);
+    if (keep.CreatorId != userId)
+    {
+      keep.Visits++;
+      _repository.IncrementVisits(keep);
 
+    }
+
+    return keep;
+  }
 }

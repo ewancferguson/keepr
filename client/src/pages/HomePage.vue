@@ -41,7 +41,8 @@ async function getKeepById(keepId) {
           <img :src="keep.img" :alt="keep.img" class="picture-img rounded">
           <div class="keep-overlay">
             <RouterLink :to="{ name: 'Profile', params: { profileId: keep.creatorId } }">
-              <img :src="keep.creator.picture" :title="keep.creator.name" alt="Profile Picture" class="pfp">
+              <img onclick="event.stopPropagation()" :src="keep.creator.picture" :title="keep.creator.name"
+                alt="Profile Picture" class="pfp">
             </RouterLink>
             <span class="keep-name">{{ keep.name }}</span>
           </div>

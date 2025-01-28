@@ -140,4 +140,18 @@ public class KeepsRepository
 
     return keeps;
   }
+
+  internal void IncrementVisits(Keep keep)
+  {
+    string sql = @"
+    UPDATE keeps
+    SET visits = @Visits
+    WHERE id = @Id
+    LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, keep);
+
+    if (rowsAffected != 1) throw new Exception($"{rowsAffected} WERE UPDATED AND THAT IS BAD");
+
+  }
 }

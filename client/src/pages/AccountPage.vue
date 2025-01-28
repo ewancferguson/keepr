@@ -41,8 +41,6 @@ async function getKeepById(keepId) {
       </div>
     </section>
 
-
-
     <!-- User Info -->
     <div class="text-center mt-5">
       <h2 class="fw-bold">{{ account.name }}</h2>
@@ -55,15 +53,19 @@ async function getKeepById(keepId) {
       <div class="row g-3">
         <div v-for="vault in vaults" :key="vault.id" class="col-6 col-sm-4 col-md-3">
           <div class="vault-card position-relative overflow-hidden rounded shadow-sm">
-            <img :src="vault.img" class="w-100 rounded" />
+            <img :src="vault.img" class="w-100 rounded">
             <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-1">
               <span class="fw-bold">{{ vault.name }}</span>
+            </div>
+            <div v-if="vault.isPrivate == true" class="lock-icon position-absolute bottom-0 end-0 m-2">
+              <i class="mdi mdi-lock text-white bg-dark bg-opacity-75 p-1 rounded-circle"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Keeps Section -->
     <div v-if="keeps" class="container mt-4">
       <h3 class="fw-bold">Keeps</h3>
       <div class="masonry-container">
@@ -78,6 +80,8 @@ async function getKeepById(keepId) {
         </div>
       </div>
     </div>
+
+    <!-- Keep Modal -->
     <KeepModal />
   </div>
 </template>
@@ -88,7 +92,6 @@ async function getKeepById(keepId) {
   height: 15rem;
   object-fit: cover;
 }
-
 
 .creator-img {
   height: 10rem;
@@ -112,6 +115,13 @@ async function getKeepById(keepId) {
     transform: translateY(-10px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   }
+}
+
+.lock-icon {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .masonry-container {

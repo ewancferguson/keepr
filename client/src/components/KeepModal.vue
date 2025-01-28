@@ -39,7 +39,7 @@ async function getMyVaults() {
                       <i class="bi bi-eye"></i> {{ keep.kept || 0 }}
                     </span>
                     <span class="me-3">
-                      <i class="bi bi-heart"></i> {{ keep.views || 0 }}
+                      <i class="bi bi-heart"></i> {{ keep.visits || 0 }}
                     </span>
                   </div>
                 </div>
