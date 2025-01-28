@@ -1,11 +1,19 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { vaultKeepsService } from '@/services/VaultKeepsService';
 import { vaultsService } from '@/services/VaultsService';
 import Pop from '@/utils/Pop';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const keep = computed(() => AppState.activeKeep);
 const vaults = computed(() => AppState.myVaults);
+
+
+const editableVaultKeepData = ref({
+  vaultId: 0,
+  keepId: 0,
+})
+
 
 onMounted(() => {
 
@@ -18,6 +26,24 @@ async function getMyVaults() {
     Pop.error(error);
   }
 }
+
+
+async function createVaultKeep() {
+  try {
+
+    editableVaultKeepData.value.keepId = keep.value.id
+    await vaultKeepsService.createVaultKeep(editableVaultKeepData.value)
+    Pop.success('Keep Vaulted')
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+
+
+
+}
+
+
 </script>
 
 <template>
@@ -44,23 +70,23 @@ async function getMyVaults() {
                   </div>
                 </div>
                 <div>
-                  <h2 id="modalTitle" class="fw-bold mb-3">{{ keep.name || 'Unnamed Keep' }}</h2>
-                  <p class="text-muted">{{ keep.description || 'No description available.' }}</p>
+                  <h2 id="modalTitle" class="fw-bold mb-3">{{ keep.name }}</h2>
+                  <p class="text-muted">{{ keep.description }}</p>
                 </div>
                 <div class="modal-footer border-0 d-flex justify-content-between px-4">
-                  <form v-if="vaults" class="d-flex align-items-center">
+                  <form @submit.prevent="createVaultKeep()" v-if="vaults" class="d-flex align-items-center">
                     <label for="vaultSelect" class="me-2 text-muted">Select Vault:</label>
-                    <select id="vaultSelect" class="form-select form-select-sm">
+                    <select v-model="editableVaultKeepData.vaultId" id="vaultSelect" class="form-select form-select-sm">
                       <option value="" disabled>Select a vault</option>
                       <option v-for="vault in vaults" :key="vault.id" :value="vault.id">{{ vault.name }}</option>
                     </select>
+                    <div class="d-flex align-items-center">
+                      <button type="submit" class="btn btn-outline-primary btn-sm me-2">save</button>
+                      <img :src="keep.creator?.picture || 'https://via.placeholder.com/32'" alt="User"
+                        class="rounded-circle" style="width: 32px; height: 32px;" />
+                      <span class="ms-2 fw-bold">{{ keep.creator?.name }}</span>
+                    </div>
                   </form>
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-outline-primary btn-sm me-2">save</button>
-                    <img :src="keep.creator?.picture || 'https://via.placeholder.com/32'" alt="User"
-                      class="rounded-circle" style="width: 32px; height: 32px;" />
-                    <span class="ms-2 fw-bold">{{ keep.creator?.name || 'Unknown Creator' }}</span>
-                  </div>
                 </div>
               </div>
             </div>

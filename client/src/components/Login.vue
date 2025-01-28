@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { AppState } from '../AppState.js';
 import { AuthService } from '../services/AuthService.js';
+import { Account } from '@/models/Account.js';
+import AccountForm from './AccountForm.vue';
 
 const identity = computed(() => AppState.identity)
 const account = computed(() => AppState.account)
@@ -34,6 +36,10 @@ async function logout() {
                 Manage Account
               </div>
             </router-link>
+            <div data-bs-toggle="modal" data-bs-target="#editAccountModal"
+              class="list-group-item dropdown-item list-group-item-action">
+              Edit Account
+            </div>
             <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
               <i class="mdi mdi-logout"></i>
               logout
@@ -43,6 +49,8 @@ async function logout() {
       </div>
     </div>
   </span>
+
+  <AccountForm />
 </template>
 
 <style lang="scss" scoped></style>
