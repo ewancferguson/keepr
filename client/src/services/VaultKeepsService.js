@@ -5,6 +5,11 @@ import { AppState } from "@/AppState.js"
 import { VaultedKeep } from "@/models/VaultedKeep.js"
 
 class VaultKeepsService {
+  async deleteVaultKeep(vaultKeepId) {
+    const response = await api.delete(`api/vaultkeeps/${vaultKeepId.vaultKeepId}`)
+    const keepIndex = AppState.vaultedkeeps.findIndex(keep => keep.id == vaultKeepId.id)
+    AppState.vaultedkeeps.splice(keepIndex, 1)
+  }
   async getVaultedKeeps(vaultId) {
     const response = await api.get(`api/vaults/${vaultId}/keeps`)
     const vaultkeeps = response.data.map(vaultKeepPOJO => new VaultedKeep(vaultKeepPOJO))

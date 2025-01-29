@@ -40,12 +40,12 @@ async function createVault() {
 <template>
 
   <!-- Modal -->
-  <div class="modal fade" id="vaultModal" tabindex="-1" aria-labelledby="vaultModalLabel" aria-hidden="true">
+  <div class="modal fade" id="vaultModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="vaultModalLabel">Add your vault</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <form @submit.prevent="createVault()">
           <div class="modal-body">

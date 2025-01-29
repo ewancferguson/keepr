@@ -1,5 +1,8 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { accountService } from '@/services/AccountService';
+import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { computed, ref } from 'vue';
 
 const account = computed(() => AppState.account)
@@ -13,7 +16,14 @@ const editableAccountData = ref({
 
 
 async function updateAccount() {
-
+  try {
+    await accountService.updateAccount(editableAccountData.value)
+    Pop.success("Account Updated")
+    Modal.getInstance('#editAccountModal').hide()
+  }
+  catch (error) {
+    Pop.error(error);
+  }
 }
 
 
@@ -23,7 +33,7 @@ async function updateAccount() {
 
 
 <template>
-  <div class="modal fade" id="editAccountModal" tabindex="-1" aria-labelledby="editAccountLabel" aria-hidden="true">
+  <div class="modal fade" id="editAccountModal" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

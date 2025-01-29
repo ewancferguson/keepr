@@ -1,12 +1,15 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { keepsService } from '@/services/KeepsService';
 import { vaultKeepsService } from '@/services/VaultKeepsService';
 import { vaultsService } from '@/services/VaultsService';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { computed, onMounted, ref } from 'vue';
 
 const keep = computed(() => AppState.activeKeep);
 const vaults = computed(() => AppState.myVaults);
+
 
 
 const editableVaultKeepData = ref({
@@ -44,11 +47,22 @@ async function createVaultKeep() {
 }
 
 
+
+async function deleteKeep(keepId) {
+  try {
+    Modal.getInstance('#keepModal').hide()
+    await keepsService.deleteKeep(keepId)
+    Pop.toast("Keep Deleted")
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
+
 </script>
 
 <template>
-  <div v-if="keep" class="modal fade" id="keepModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
-    aria-hidden="true">
+  <div v-if="keep" class="modal fade" id="keepModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-width" role="document">
       <div class="modal-content border-0 rounded-3 shadow">
         <div class="modal-body p-4">
@@ -73,18 +87,28 @@ async function createVaultKeep() {
                   <h2 id="modalTitle" class="fw-bold mb-3">{{ keep.name }}</h2>
                   <p class="text-muted">{{ keep.description }}</p>
                 </div>
-                <div class="modal-footer border-0 d-flex justify-content-between px-4">
-                  <form @submit.prevent="createVaultKeep()" v-if="vaults" class="d-flex align-items-center">
-                    <label for="vaultSelect" class="me-2 text-muted">Select Vault:</label>
-                    <select v-model="editableVaultKeepData.vaultId" id="vaultSelect" class="form-select form-select-sm">
-                      <option value="" disabled>Select a vault</option>
-                      <option v-for="vault in vaults" :key="vault.id" :value="vault.id">{{ vault.name }}</option>
-                    </select>
-                    <div class="d-flex align-items-center">
-                      <button type="submit" class="btn btn-outline-primary btn-sm me-2">save</button>
-                      <img :src="keep.creator?.picture || 'https://via.placeholder.com/32'" alt="User"
-                        class="rounded-circle" style="width: 32px; height: 32px;" />
-                      <span class="ms-2 fw-bold">{{ keep.creator?.name }}</span>
+                <div class="modal-footer border-0 d-flex flex-column align-items-stretch">
+                  <form @submit.prevent="createVaultKeep()" v-if="vaults"
+                    class="d-flex flex-column align-items-stretch">
+                    <div class="d-flex align-items-center mb-2">
+                      <label for="vaultSelect" class="me-2 text-muted">Select Vault:</label>
+                      <select v-model="editableVaultKeepData.vaultId" id="vaultSelect"
+                        class="form-select form-select-sm">
+                        <option value="" disabled>Select a vault</option>
+                        <option v-for="vault in vaults" :key="vault.id" :value="vault.id">{{ vault.name }}</option>
+                      </select>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex align-items-center">
+                        <button type="submit" class="btn btn-outline-primary btn-sm me-2">Vault</button>
+                        <button @click="deleteKeep(keep.id)" type="button"
+                          class="btn btn-outline-danger btn-sm">Delete</button>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <img :src="keep.creator?.picture || 'https://via.placeholder.com/32'" alt="User"
+                          class="rounded-circle" style="width: 32px; height: 32px;" />
+                        <span class="ms-2 fw-bold">{{ keep.creator?.name }}</span>
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -95,9 +119,8 @@ async function createVaultKeep() {
       </div>
     </div>
   </div>
-
-
 </template>
+
 
 <style scoped>
 .modal {

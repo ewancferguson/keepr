@@ -16,39 +16,42 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
   saveState('theme', theme.value)
 }
-
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+  <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
-      <router-link class="navbar-brand nav-link" :to="{ name: 'Home' }">Home</router-link>
+      <router-link class="navbar-brand" :to="{ name: 'Home' }">the keepr co.</router-link>
 
-      <div class="dropdown">
-        <button class="btn btn-outline-primary dropdown-toggle px-3 py-2" type="button" data-bs-toggle="dropdown">
-          <i class="bi bi-plus-circle me-2"></i>Create
-        </button>
-        <ul class="dropdown-menu shadow-sm rounded-3">
-          <li>
-            <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#vaultModal">
-              <i class="bi bi-folder-fill me-2 text-primary"></i>Vault
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#keepForm">
-              <i class="bi bi-bookmark-fill me-2 text-success"></i>Keep
-            </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'Home' }">Home</router-link>
           </li>
         </ul>
-      </div>
 
-      <CreateVaultForm />
-      <CreateKeepForm />
-      <div class="mx-auto">
-        <span class="brand-logo">the keepr co.</span>
-      </div>
+        <div class="dropdown me-3">
+          <button class="btn btn-outline-primary dropdown-toggle px-3 py-2" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-plus-circle me-2"></i>Create
+          </button>
+          <ul class="dropdown-menu shadow-sm rounded-3">
+            <li>
+              <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#vaultModal">
+                <i class="bi bi-folder-fill me-2 text-primary"></i>Vault
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#keepForm">
+                <i class="bi bi-bookmark-fill me-2 text-success"></i>Keep
+              </a>
+            </li>
+          </ul>
+        </div>
 
-      <div class="ms-auto d-flex align-items-center">
         <Login />
       </div>
     </div>
@@ -61,11 +64,12 @@ function toggleTheme() {
   padding: 10px 20px;
 }
 
-.brand-logo {
+.navbar-brand {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.2rem;
   border: 1px solid #000;
   padding: 5px 10px;
+  white-space: nowrap;
 }
 
 .nav-link {

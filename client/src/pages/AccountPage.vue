@@ -47,7 +47,7 @@ async function getKeepById(keepId) {
         <div v-for="vault in vaults" :key="vault.id" class="col-6 col-sm-4 col-md-3">
           <RouterLink :to="{ name: 'Vault', params: { vaultId: vault.id } }">
             <div class="vault-card position-relative overflow-hidden rounded shadow-sm">
-              <img :src="vault.img" class="w-100 rounded">
+              <img alt="Vault Picture" :src="vault.img" class="w-100 rounded">
               <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-1">
                 <span class="fw-bold">{{ vault.name }}</span>
               </div>

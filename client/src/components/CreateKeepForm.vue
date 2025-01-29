@@ -38,12 +38,12 @@ async function createKeep() {
 
 
 <template>
-  <div class="modal fade" id="keepForm" tabindex="-1" aria-labelledby="keepModalLabel" aria-hidden="true">
+  <div class="modal fade" id="keepForm" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="keepModalLabel">Add your keep</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <form @submit.prevent="createKeep()">
           <div class="modal-body">

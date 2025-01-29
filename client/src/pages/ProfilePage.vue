@@ -88,15 +88,17 @@ async function getUsersVaults() {
       <h3 class="fw-bold">Vaults</h3>
       <div class="row g-3">
         <div v-for="vault in vaults" :key="vault.id" class="col-6 col-sm-4 col-md-3">
-          <div class="vault-card position-relative overflow-hidden rounded shadow-sm">
-            <img :src="vault.img" class="w-100 rounded" />
-            <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-1">
-              <span class="fw-bold">{{ vault.name }}</span>
+          <RouterLink :to="{ name: 'Vault', params: { vaultId: vault.id } }">
+            <div class="vault-card position-relative overflow-hidden rounded shadow-sm">
+              <img :src="vault.img" class="w-100 rounded" />
+              <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-50 text-white text-center py-1">
+                <span class="fw-bold">{{ vault.name }}</span>
+              </div>
+              <div v-if="vault.isPrivate == true" class="lock-icon position-absolute bottom-0 end-0 m-2">
+                <i class="mdi mdi-lock text-white bg-dark bg-opacity-75 p-1 rounded-circle"></i>
+              </div>
             </div>
-            <div v-if="vault.isPrivate == true" class="lock-icon position-absolute bottom-0 end-0 m-2">
-              <i class="mdi mdi-lock text-white bg-dark bg-opacity-75 p-1 rounded-circle"></i>
-            </div>
-          </div>
+          </RouterLink>
         </div>
       </div>
     </div>

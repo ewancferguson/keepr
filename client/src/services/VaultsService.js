@@ -4,6 +4,12 @@ import { Vault } from "@/models/Vault.js"
 import { AppState } from "@/AppState.js"
 
 class VaultsService {
+  async deleteVault(vaultId) {
+    const response = await api.delete(`api/vaults/${vaultId}`)
+    const vaultIndex = AppState.myVaults.findIndex(vault => vault.id == vaultId)
+    AppState.myVaults.splice(vaultIndex, 1)
+
+  }
   async getVaultById(vaultId) {
     const response = await api.get(`api/vaults/${vaultId}`)
     const vault = new Vault(response.data)
