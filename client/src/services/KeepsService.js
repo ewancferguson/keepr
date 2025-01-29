@@ -25,6 +25,7 @@ class KeepsService {
     const keep = new Keep(response.data)
     AppState.activeKeep = keep
     AppState.keeps.push(keep)
+    AppState.myKeeps.push(keep)
   }
   async getKeepById(keepId) {
     AppState.activeKeep = null

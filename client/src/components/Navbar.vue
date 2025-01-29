@@ -1,15 +1,19 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 import CreateKeepForm from './CreateKeepForm.vue';
 import CreateVaultForm from './CreateVaultForm.vue';
+import { AppState } from '@/AppState.js';
 
 const theme = ref(loadState('theme') || 'light')
 
 onMounted(() => {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
 })
+
+
+const account = computed(() => AppState.account)
 
 function toggleTheme() {
   theme.value = theme.value == 'light' ? 'dark' : 'light'
@@ -34,7 +38,7 @@ function toggleTheme() {
           </li>
         </ul>
 
-        <div class="dropdown me-3">
+        <div v-if="account" class="dropdown me-3">
           <button class="btn btn-outline-primary dropdown-toggle px-3 py-2" type="button" data-bs-toggle="dropdown">
             <i class="bi bi-plus-circle me-2"></i>Create
           </button>
@@ -53,6 +57,8 @@ function toggleTheme() {
         </div>
 
         <Login />
+        <CreateVaultForm />
+        <CreateKeepForm />
       </div>
     </div>
   </nav>

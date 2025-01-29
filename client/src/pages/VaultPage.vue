@@ -9,7 +9,7 @@ import { vaultsService } from '@/services/VaultsService';
 import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 
 const vault = computed(() => AppState.activeVault)
@@ -83,20 +83,24 @@ async function deleteVaultKeep(vaultKeepId) {
 
 
 <template>
-  <div v-if="vault" class="d-flex justify-content-center mt-5">
-    <div class="card text-white text-center bg-dark"
-      :style="{ width: '100%', maxWidth: '500px', height: '200px', background: `url(${vault.img}) center/cover no-repeat` }">
-      <div class="card-img-overlay d-flex flex-column justify-content-center">
-        <h3 class="card-title">{{ vault.name }}</h3>
+  <!-- FIXME test this logged out -->
+  <div v-if="vault">
+
+    <div class="d-flex justify-content-center mt-5">
+      <div class="card text-white text-center bg-dark"
+        :style="{ width: '100%', maxWidth: '500px', height: '200px', background: `url(${vault.img}) center/cover no-repeat` }">
+        <div class="card-img-overlay d-flex flex-column justify-content-center">
+          <h3 class="card-title">{{ vault.name }}</h3>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="text-center my-3">
-    <button v-if="vault.creatorId == account.id" @click="deleteVault(vault.id)" class="btn btn-danger btn-sm">Delete
-      Vault</button>
-  </div>
+    <div class="text-center my-3">
+      <button v-if="vault.creatorId == account?.id" @click="deleteVault(vault.id)" class="btn btn-danger btn-sm">Delete
+        Vault</button>
+    </div>
 
+  </div>
   <p class="text-center mt-3">{{ keeps.length }} keeps</p>
 
   <div v-if="keeps" class="container mt-4">
@@ -105,8 +109,8 @@ async function deleteVaultKeep(vaultKeepId) {
         <div class="position-relative border rounded shadow-sm overflow-hidden">
           <img :src="keep.img" :alt="keep.img" class="img-fluid rounded">
           <div class="position-absolute top-0 start-0 p-2">
-            <RouterLink :to="{ name: 'Profile', params: { profileId: keep.creatorId } }">
-              <img onclick="event.stopPropagation()" :src="keep.creator.picture" :title="keep.creator.name"
+            <RouterLink :to="{ name: 'Profile', params: { profileId: keep?.creatorId } }">
+              <img onclick="event.stopPropagation()" :src="keep.creator?.picture" :title="keep?.creator.name"
                 alt="Profile Picture" class="rounded-circle border border-light" width="40" height="40">
             </RouterLink>
           </div>
@@ -114,8 +118,8 @@ async function deleteVaultKeep(vaultKeepId) {
             <span class="fw-bold">{{ keep.name }}</span>
           </div>
           <!-- X Button -->
-          <button v-if="vault.creatorId == account.id" onclick="event.stopPropagation()" @click="deleteVaultKeep(keep)"
-            class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2 rounded-circle">
+          <button v-if="vault.creatorId == account?.id" onclick="event.stopPropagation()" @click="deleteVaultKeep(keep)"
+            class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2">
             Remove
           </button>
         </div>

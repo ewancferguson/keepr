@@ -64,7 +64,8 @@ public class KeepsRepository
       FROM keeps
       JOIN accounts ON keeps.creator_id = accounts.id
       LEFT JOIN vault_keeps ON keeps.id = vault_keeps.keep_id
-      WHERE keeps.id = @keepId;";
+      WHERE keeps.id = @keepId
+      GROUP BY(keeps.id)";
 
     Keep keep = _db.Query(sql, (Keep keep, Profile account) =>
   {
@@ -147,7 +148,7 @@ public class KeepsRepository
   {
     string sql = @"
     UPDATE keeps
-    SET visits = @Visits
+    SET views = @Views
     WHERE id = @Id
     LIMIT 1;";
 

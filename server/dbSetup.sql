@@ -17,10 +17,12 @@ CREATE TABLE keeps (
   name VARCHAR(255) NOT NULL,
   description VARCHAR(1000) NOT NULL,
   img VARCHAR(1000) NOT NULL,
-  visits INT UNSIGNED NOT NULL DEFAULT 0,
+  views INT UNSIGNED NOT NULL DEFAULT 0,
   creator_id VARCHAR(255) NOT NULL, 
   FOREIGN KEY (creator_id) REFERENCES accounts(id) ON DELETE CASCADE
 )
+
+DROP TABLE keeps
 
 CREATE TABLE vaults(
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -46,7 +48,9 @@ CREATE TABLE vault_keeps (
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   keep_id int NOT NULL,
   vault_id int NOT NULL,
-  creator_id VARCHAR(255) NOT NULL
+  creator_id VARCHAR(255) NOT NULL,
+  FOREIGN KEY (keep_id) REFERENCES keeps(id) ON DELETE CASCADE,
+  FOREIGN KEY (vault_id) REFERENCES vaults(id) ON DELETE CASCADE
 )
 
 
@@ -78,3 +82,13 @@ SELECT
     FROM keeps
     JOIN accounts ON keeps.creator_id = accounts.id
     WHERE creator_id = '679017bf9406e615cee24f9c';
+
+
+ SELECT
+      keeps.*,
+      COUNT(vault_keeps.id) AS kept,
+      accounts.*
+      FROM keeps
+      JOIN accounts ON keeps.creator_id = accounts.id
+      LEFT JOIN vault_keeps ON keeps.id = vault_keeps.keep_id
+      WHERE keeps.id = 28

@@ -76,7 +76,7 @@ public class KeepsService
     Keep keep = GetKeepById(keepId);
     if (keep.CreatorId != userId)
     {
-      keep.Visits++;
+      keep.Views++;
       _repository.IncrementVisits(keep);
 
     }
