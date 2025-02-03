@@ -23,6 +23,7 @@ watch(route, () => {
 
 async function getVaultById() {
   try {
+    AppState.activeVault = null
     const vaultId = route.params.vaultId
     await vaultsService.getVaultById(vaultId)
   }
@@ -34,6 +35,7 @@ async function getVaultById() {
 
 async function getVaultedkeeps() {
   try {
+    AppState.vaultedkeeps = []
     const vaultId = route.params.vaultId
     await vaultKeepsService.getVaultedKeeps(vaultId)
 
