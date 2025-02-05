@@ -12,17 +12,12 @@ const keep = computed(() => AppState.activeKeep);
 const vaults = computed(() => AppState.myVaults);
 const account = computed(() => AppState.account)
 
-
-
 const editableVaultKeepData = ref({
   vaultId: 0,
   keepId: 0,
 })
 
-
-onMounted(() => {
-
-});
+onMounted(() => { });
 
 async function getMyVaults() {
   try {
@@ -32,43 +27,32 @@ async function getMyVaults() {
   }
 }
 
-
 async function createVaultKeep() {
   try {
-
-    editableVaultKeepData.value.keepId = keep.value.id
-    await vaultKeepsService.createVaultKeep(editableVaultKeepData.value)
-    Pop.success('Keep Vaulted')
-  }
-  catch (error) {
+    editableVaultKeepData.value.keepId = keep.value.id;
+    await vaultKeepsService.createVaultKeep(editableVaultKeepData.value);
+    Pop.success('Keep Vaulted');
+  } catch (error) {
     Pop.error(error);
   }
-
-
-
 }
-
 
 function hideModal() {
-  Modal.getInstance('#keepModal').hide()
+  Modal.getInstance('#keepModal').hide();
 }
-
 
 async function deleteKeep(keepId) {
   try {
-    Modal.getInstance('#keepModal').hide()
-    await keepsService.deleteKeep(keepId)
-    Pop.toast("Keep Deleted")
-  }
-  catch (error) {
+    Modal.getInstance('#keepModal').hide();
+    await keepsService.deleteKeep(keepId);
+    Pop.toast("Keep Deleted");
+  } catch (error) {
     Pop.error(error);
   }
 }
-
 </script>
 
 <template>
-  <!-- FIXME make kept count reactive -->
   <div v-if="keep" class="modal fade" id="keepModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg custom-modal-width" role="document">
       <div class="modal-content border-0 rounded-3 shadow">
@@ -107,7 +91,6 @@ async function deleteKeep(keepId) {
                         class="btn btn-outline-danger">Delete</button>
                     </div>
                     <div class="d-flex align-items-center justify-content-center mt-3">
-                      <!-- FIXME add @click to close modal -->
                       <RouterLink :to="{ name: 'Profile', params: { profileId: keep.creatorId } }">
                         <img @click="hideModal()" :src="keep.creator?.picture" alt="User" class="rounded-circle me-2"
                           style="width: 32px; height: 32px;" />
@@ -125,8 +108,6 @@ async function deleteKeep(keepId) {
   </div>
 </template>
 
-
-
 <style scoped>
 .modal {
   animation: fadeIn 0.3s ease-in-out;
@@ -139,7 +120,26 @@ async function deleteKeep(keepId) {
 }
 
 .custom-modal-width {
-  max-width: 80%;
+  max-width: 90%;
+}
+
+@media (max-width: 576px) {
+  .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .modal-body {
+    padding: 2rem;
+  }
+
+  .modal-footer {
+    padding: 1rem 0;
+  }
+
+  .modal-content {
+    border-radius: 0;
+  }
 }
 
 @keyframes fadeIn {
