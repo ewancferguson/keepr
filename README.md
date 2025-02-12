@@ -48,7 +48,7 @@ Keepr is a **Pinterest-inspired** web application that allows users to save, org
 
 ## 📫 Contact
 - **GitHub:** [Ewan Ferguson](https://github.com/ewancferguson)
-- **Portfolio:** [My Work](https://ewaaaaannnn.github.io/Portfolio/)
+- **Portfolio:** [My Work](https://ewanferguson.org/)
 - **Email:** ewanferg01@gmail.com
 
 ---
