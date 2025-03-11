@@ -6,4 +6,4 @@ services:
     env_file:
       - keepr-env
     ports:
-      - "7044:80"
+      - "7045:80"
